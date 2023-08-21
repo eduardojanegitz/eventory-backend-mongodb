@@ -2,7 +2,14 @@ import mongoose from "mongoose";
 
 const InventorySchema = new mongoose.Schema(
   {
-    item: String
+    item: [
+      {
+        descricao: String,
+        nome: String,
+        localizacao: String,
+        serial: String
+      }
+    ]
   },
   { timestamps: true }
 );
