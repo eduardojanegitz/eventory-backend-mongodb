@@ -16,13 +16,13 @@ export const inventory = {
       const item = {
         // location: req.body.location,
         // responsable: req.body.responsable,
-        item: req.body.item,
+        item: req.body.lista,
       };
 
       const response = await Inventory.create(item);
       res.status(201).json({ response, msg: "Item inventariado com sucesso" });
     } catch (error) {
-      console.log(error);
+      console.log("deu errinho");
     }
   },
 };
