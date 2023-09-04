@@ -7,21 +7,27 @@ const UserSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    name: {
+    password: {
       type: String,
       required: true,
+    },
+    name: {
+      type: String,
     },
     email: {
       type: String,
-      required: true,
-    },
-    pass: {
-      type: String,
-      required: true,
     },
     department: {
       type: String,
-      required: true,
+    },
+    roles: [
+      {
+        type: String,
+      },
+    ],
+    active: {
+      type: Boolean,
+      default: true,
     },
   },
   { timestamps: true }
