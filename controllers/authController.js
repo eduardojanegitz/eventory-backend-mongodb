@@ -22,24 +22,24 @@ export const login = async (req, res) => {
     if (!match) {
       return res.status(401).json({ message: "Usuário ou senha incorretos" });
     }
-
+    const roles = Object.values(foundUser.roles).filter(Boolean);
     const accessToken = jwt.sign(
       {
         UserInfo: {
           username: foundUser.username,
-          roles: foundUser.roles,
+          roles: roles,
         },
       },
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: "15m" }
-    );
-
-    const refreshToken = jwt.sign(
-      { username: foundUser.username },
-      process.env.REFRESH_TOKEN_SECRET,
-      { expiresIn: "7d" }
-    );
-
+      );
+      
+      const refreshToken = jwt.sign(
+        { username: foundUser.username },
+        process.env.REFRESH_TOKEN_SECRET,
+        { expiresIn: "7d" }
+        );
+        
     // Create secure cookie with refresh token
     res.cookie("jwt", refreshToken, {
       httpOnly: true, //accessible only by web server
@@ -49,7 +49,7 @@ export const login = async (req, res) => {
     });
 
     // Send accessToken containing username and roles
-    res.json({ accessToken });
+    res.json({ accessToken, roles });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Erro interno do servidor" });
@@ -59,7 +59,7 @@ export const login = async (req, res) => {
 export const refresh = (req, res) => {
   const cookies = req.cookies;
 
-  if (!cookies?.jwt) return res.status(401).json({ message: "Unauthorized" });
+  if (!cookies?.jwt) return res.status(401).json({ message: "Não autorizado" });
 
   const refreshToken = cookies.jwt;
 
@@ -75,18 +75,19 @@ export const refresh = (req, res) => {
 
       if (!foundUser) return res.status(401).json({ message: "Unauthorized" });
 
+      const roles = Object.values(foundUser.roles);
       const accessToken = jwt.sign(
         {
           UserInfo: {
             username: foundUser.username,
-            roles: foundUser.roles,
+            roles: roles,
           },
         },
         process.env.ACCESS_TOKEN_SECRET,
         { expiresIn: "15m" }
       );
 
-      res.json({ accessToken });
+      res.json({ accessToken, roles });
     }
   );
 };
@@ -97,3 +98,17 @@ export const logout = (req, res) => {
   res.clearCookie("jwt", { httpOnly: true, sameSite: "None", secure: true });
   res.json({ message: "Cookie cleared" });
 };
+
+
+export const logged = (req, res) => {
+  try {
+    const token = req.cookies.jwt;
+    if(!token) return res.json(false)
+
+    jwt.verify(token, process.env.REFRESH_TOKEN_SECRET)
+
+    res.send(true)
+  } catch (error) {
+    res.json(false)
+  }
+}

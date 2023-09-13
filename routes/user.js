@@ -1,7 +1,7 @@
 import express from "express";
 import { users } from "../controllers/userController.js";
 import jwt from "jsonwebtoken";
-import { verifyJWT } from "../middleware/verifyJWT.js";
+// import { verifyJWT } from "../middleware/verifyJWT.js";
 
 const router = express.Router();
 
