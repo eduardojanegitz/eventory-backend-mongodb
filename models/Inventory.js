@@ -7,9 +7,14 @@ const InventorySchema = new mongoose.Schema(
         descricao: String,
         nome: String,
         localizacao: String,
-        serial: String
-      }
-    ]
+        serial: String,
+      },
+    ],
+    user: {
+      type: mongoose.Schema.Types.String,
+      ref: "User",
+      required: true,
+    },
   },
   { timestamps: true }
 );

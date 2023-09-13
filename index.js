@@ -5,6 +5,7 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 
 import clientRoutes from "./routes/client.js";
 import generalRoutes from "./routes/general.js";
@@ -22,7 +23,14 @@ app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("common"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cors());
+app.use(cors({
+  origin: [
+    "http://localhost:3000",
+    "https://eventory-teste.onrender.com/"
+],
+  credentials: true
+}));
+app.use(cookieParser())
 
 /* ROUTES */
 app.use("/general", generalRoutes);
