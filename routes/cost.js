@@ -1,9 +1,11 @@
 import express from "express";
-import { cost } from "../controllers/costController.js";
+import { getAllCost, createCost, updateCost, deleteCost } from "../controllers/costController.js";
 
 const router = express.Router();
 
-router.get("/cost", cost.getAllCost);
-router.post("/cost", cost.create);
+router.get("/cost", getAllCost);
+router.post("/cost", createCost);
+router.put("/cost/:_id", updateCost);
+router.delete("/cost/:_id", deleteCost);
 
 export default router;
