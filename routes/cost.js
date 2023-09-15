@@ -3,7 +3,7 @@ import { cost } from "../controllers/costController.js";
 
 const router = express.Router();
 
-router.get("/cost").get((req, res) => cost.getAllCost(req, res));
-router.get("/cost").post((req, res) => cost.postCost(req, res));
+router.get("/cost", cost.getAllCost);
+router.post("/cost", cost.create);
 
 export default router;
