@@ -16,7 +16,8 @@ export const inventory = {
       const item = {
         // location: req.body.location,
         // responsable: req.body.responsable,
-        item: req.body.item,
+        item: req.body.list,
+        user: req.username
       };
 
       const response = await Inventory.create(item);

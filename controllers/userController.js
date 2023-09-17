@@ -1,4 +1,5 @@
 import User from "../models/User.js";
+import bcrypt from "bcrypt";
 
 export const users = {
   getById: async (req, res) => {
@@ -13,7 +14,11 @@ export const users = {
   },
   getAll: async (req, res) => {
     try {
-      const getUser = await User.find();
+      const getUser = await User.find().select("-password").lean();
+
+      if (!getUser?.length) {
+        res.status(400).json({ error: "Nenhum usuário encontrado" });
+      }
 
       res.status(200).json(getUser);
     } catch (error) {
@@ -22,17 +27,34 @@ export const users = {
   },
   create: async (req, res) => {
     try {
-      const user = {
-        name: req.body.name,
-        email: req.body.email,
-        pass: req.body.pass,
-        department: req.body.department,
-      };
+      const { username, password, name, email, department } = req.body;
 
-      const response = await User.create(user);
+      // validação
+      if (password.length < 8) {
+        res
+          .status(400)
+          .json({ error: "A senha precisa ter no mínimo 8 caracteres" });
+      }
+
+      const existUser = await User.findOne({ username });
+      if (existUser) {
+        res.status(400).json({ error: "A conta com esse username já existe!" });
+      }
+
+      // password hash
+      const salt = await bcrypt.genSalt();
+      const passwordHash = await bcrypt.hash(password, salt);
+
+      const response = await User.create({
+        username,
+        name,
+        email,
+        password: passwordHash,
+        department,
+      });
       res.status(201).json({ response, msg: "Usuário criado com sucesso!" });
     } catch (error) {
-      console.log("deu erro", error);
+      console.log({ error: error });
     }
-  },
+  }
 };
