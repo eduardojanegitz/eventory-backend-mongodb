@@ -26,7 +26,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors({
   origin: [
     "http://localhost:3000",
-    "https://eventory-teste.onrender.com/"
+    "https://eventory-teste.onrender.com"
 ],
   credentials: true
 }));
