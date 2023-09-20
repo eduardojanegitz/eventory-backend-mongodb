@@ -1,31 +1,49 @@
+import Item from "../models/Item.js";
 import Movement from "../models/Movement.js";
 
-export const movement = {
-  create: async (req, res) => {
-    try {
-      const movement = {
-        name: req.body.name,
-        actualLocation: req.body.actualLocation,
-        newLocation: req.body.newLocation,
-        reason: req.body.reason,
-        observations: req.body.observations,
-        // responsable: req.body.responsable,
-      };
+export const getAll = async (req, res) => {
+  try {
+    const getMovement = await Movement.find();
+    res.status(200).json(getMovement);
+  } catch (error) {
+    console.error("Erro ao buscar movimentos:", error);
+    res.status(500).json({ message: "Erro interno do servidor." });
+  }
+};
 
-      const response = await Movement.create(movement);
-      res.status(201).json({ response, msg: "Movimento registrado com sucesso!" });
-    } catch (error) {
-      console.log("Erro na inserção da movimentação", error);
+export const createMovement = async (req, res) => {
+  try {
+    const { name, actualLocation, newLocation, reason, observations } =
+      req.body;
+
+    if (!name || !actualLocation || !newLocation || !reason || !observations) {
+      return res.status(400).json({ message: "Campos obrigatórios ausentes." });
     }
-  },
 
-  getAll: async (req, res) => {
-    try {
-      const getMovement = await Movement.find();
+    const itemId = req.body.id;
 
-      res.status(200).json(getMovement);
-    } catch (error) {
-      console.log(error);
+    const item = await Item.findByIdAndUpdate(itemId, {
+      location: newLocation,
+    });
+
+    if (!item) {
+      return res.status(404).json({ message: "Item não encontrado." });
     }
-  },
+
+    const movement = {
+      name,
+      actualLocation,
+      newLocation,
+      reason,
+      observations,
+      user: req.username,
+    };
+
+    const response = await Movement.create(movement);
+    res
+      .status(201)
+      .json({ response, message: "Movimento registrado com sucesso!" });
+  } catch (error) {
+    res.status(500).json("Erro interno do servidor:", error);
+  }
 };

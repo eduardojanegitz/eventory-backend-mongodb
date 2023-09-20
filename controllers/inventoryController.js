@@ -1,29 +1,61 @@
-import Inventory from "../models/Inventory.js"
+import Inventory from "../models/Inventory.js";
+import Item from "../models/Item.js";
+import Counter from "../models/Counter.js";
 
-export const inventory = {
-  getAllInventory: async (req, res) => {
-    try {
-      const getInventory = await Inventory.find();
+async function getNextInventoryCode() {
+  try {
+    const counter = await Counter.findOneAndUpdate(
+      { name: "inventoryCode" },
+      { $inc: { count: 1 } },
+      { new: true }
+    );
 
-      res.status(200).json(getInventory);
-    } catch (error) {
-      console.log("erro na consulta dos inventários", error);
+    if (!counter) {
+      throw new Error("Não foi possível obter o próximo número de inventário.");
     }
-  },
 
-  create: async (req, res) => {
-    try {
-      const item = {
-        // location: req.body.location,
-        // responsable: req.body.responsable,
-        item: req.body.list,
-        user: req.username
-      };
+    return counter.count;
+  } catch (error) {
+    throw new Error(
+      `Erro ao obter o próximo número de inventário: ${error.message}`
+    );
+  }
+}
 
-      const response = await Inventory.create(item);
-      res.status(201).json({ response, msg: "Item inventariado com sucesso" });
-    } catch (error) {
-      console.log(error);
-    }
-  },
+export const getAllInventory = async (req, res) => {
+  try {
+    const getInventory = await Inventory.find();
+    res.status(200).json(getInventory);
+  } catch (error) {
+    console.error("Erro na consulta dos inventários:", error);
+    res.status(500).json({ error: "Erro ao buscar inventários" });
+  }
+};
+
+export const getItemByLocation = async (req, res) => {
+  try {
+    const location = req.params.location;
+    const getItem = await Item.find({ location });
+    res.status(200).json(getItem);
+  } catch (error) {
+    console.error("Erro ao buscar itens por localização:", error);
+    res.status(500).json({ error: "Erro ao buscar itens por localização" });
+  }
+};
+
+export const createInventory = async (req, res) => {
+  try {
+    const nextInventoryCode = await getNextInventoryCode();
+    const item = {
+      inventoryCode: nextInventoryCode,
+      item: req.body.list,
+      user: req.username,
+    };
+
+    const response = await Inventory.create(item);
+    res.status(201).json({ response, msg: "Item inventariado com sucesso" });
+  } catch (error) {
+    console.error("Erro ao criar inventário:", error);
+    res.status(500).json({ error: "Erro ao criar inventário" });
+  }
 };
