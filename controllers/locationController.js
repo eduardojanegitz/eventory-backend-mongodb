@@ -33,6 +33,26 @@ export const createLocation = async (req, res) => {
   }
 };
 
+export const updateLocation = async (req, res) => {
+  try {
+    const { name, description } = req.body;
+    //   if (!req?.body?.code) {
+    //     return res.status(400).json({ msg: 'Parâmetro ID é obrigatório!' });
+    // }
+    const { id } = req.params;
+    const location = await Location.findById(id).exec();
+    if (!location) {
+      res.status(204).json({ msg: `Nenhuma localização encontrada com esse ID!` });
+    }
+    const response = await cost.updateOne({ name, description });
+    res
+      .status(201)
+      .json({ response, msg: "Localização atualizada com sucesso!" });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const deleteLocation = async (req, res) => {
   try {
     const { id } = req.params;
