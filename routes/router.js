@@ -5,7 +5,7 @@ import movement from "./movement.js";
 import inventory from "./inventory.js";
 import cost from "./cost.js";
 import auth from "./auth.js";
-import Location from "../models/Location.js";
+import location from "./location.js"
 
 const router = express.Router();
 
