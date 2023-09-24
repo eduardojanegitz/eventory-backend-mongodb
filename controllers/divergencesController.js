@@ -12,9 +12,11 @@ export const getAllDivergences = async (req, res) => {
 
 export const createDivergence = async (req, res) => {
   try {
+    const {location} = req.body
     const item = {
       item: req.body.divergences,
-      user: req.username
+      user: req.username,
+      location
     };
 
     const response = await Divergences.create(item);
@@ -22,5 +24,21 @@ export const createDivergence = async (req, res) => {
   } catch (error) {
     console.error("Erro ao criar inventário:", error);
     res.status(500).json({ error: "Erro ao criar inventário" });
+  }
+};
+
+export const aproveDivergence = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const divergence = await Divergences.findById(id).exec();
+    if (!divergence) {
+      res.status(204).json({ msg: `Nenhuma divergência encontrada!` });
+    }
+    const response = await divergence.deleteOne();
+    res
+      .status(200)
+      .json({ response, msg: "Divergência aprovada!" });
+  } catch (error) {
+    console.log(error);
   }
 };

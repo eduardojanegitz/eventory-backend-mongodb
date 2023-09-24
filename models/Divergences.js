@@ -10,6 +10,9 @@ const DivergencesSchema = new mongoose.Schema(
         serial: String,
       },
     ],
+    location: {
+      type: String 
+    },
     user: {
       type: mongoose.Schema.Types.String,
       ref: "User",
