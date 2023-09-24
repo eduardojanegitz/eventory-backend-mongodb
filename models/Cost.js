@@ -2,9 +2,19 @@ import mongoose from "mongoose";
 
 const CostSchema = new mongoose.Schema(
   {
-    name: String,
-    code: Number,
-    description: String,
+    code: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    active: {
+      type: Boolean,
+      default: true,
+    },
   },
   { timestamps: true }
 );
