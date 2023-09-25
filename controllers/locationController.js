@@ -1,4 +1,4 @@
-import Location from "../models/Location";
+import Location from "../models/Location.js";
 
 export const getAll = async (req, res) => {
   try {
@@ -36,9 +36,7 @@ export const createLocation = async (req, res) => {
 export const updateLocation = async (req, res) => {
   try {
     const { name, description } = req.body;
-    //   if (!req?.body?.code) {
-    //     return res.status(400).json({ msg: 'Parâmetro ID é obrigatório!' });
-    // }
+  
     const { id } = req.params;
     const location = await Location.findById(id).exec();
     if (!location) {
