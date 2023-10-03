@@ -42,7 +42,7 @@ export const updateLocation = async (req, res) => {
     if (!location) {
       res.status(204).json({ msg: `Nenhuma localização encontrada com esse ID!` });
     }
-    const response = await cost.updateOne({ name, description });
+    const response = await location.updateOne({ name, description });
     res
       .status(201)
       .json({ response, msg: "Localização atualizada com sucesso!" });
