@@ -7,8 +7,8 @@ import { getOne } from "../controllers/itemController.js";
 const router = express.Router();
 
 router.get("/inventory", getAllInventory);
-router.get("/tag/:tag", getOne);
-router.get("/tag/:location", getItemByLocation);
+router.get("/inventory/item/:tag", getOne);
+router.get("/inventory/location/:location", getItemByLocation);
 router.post("/inventory", authMiddleware, createInventory);
 
 router.post("/divergences", authMiddleware, createDivergence)
