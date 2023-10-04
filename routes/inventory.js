@@ -2,10 +2,12 @@ import express from "express";
 import { getAllInventory, createInventory, getItemByLocation } from "../controllers/inventoryController.js";
 import { authMiddleware } from "../middleware/authMiddleware.js";
 import { aproveDivergence, createDivergence, getAllDivergences } from "../controllers/divergencesController.js";
+import { getOne } from "../controllers/itemController.js";
 
 const router = express.Router();
 
 router.get("/inventory", getAllInventory);
+router.get("/tag/:tag", getOne);
 router.get("/tag/:location", getItemByLocation);
 router.post("/inventory", authMiddleware, createInventory);
 

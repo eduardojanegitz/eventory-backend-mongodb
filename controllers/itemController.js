@@ -1,7 +1,6 @@
 import Item from "../models/Item.js";
 
-export const postItem = {
-  create: async (req, res) => {
+  export const createItem = async (req, res) => {
     try {
       const item = {
         name: req.body.name,
@@ -19,8 +18,9 @@ export const postItem = {
     } catch (error) {
       console.log(error);
     }
-  },
-  getAll: async (req, res) => {
+  };
+
+  export const getAllItems = async (req, res) => {
     try {
       const getItem = await Item.find();
 
@@ -28,8 +28,9 @@ export const postItem = {
     } catch (error) {
       console.log(error);
     }
-  },
-  getOne: async (req, res) => {
+  };
+
+  export const getOne = async (req, res) => {
     try {
       const tag = req.params.tag;
       const getItemByTag = await Item.findOne({ tag });
@@ -38,17 +39,27 @@ export const postItem = {
     } catch (error) {
       console.log("Erro em encontrar o item", error);
     }
-  },
-  countDoc: async (req, res) => {
-    try {
-      const count = await Item.count();
+  };
 
-      res.status(200).json(count);
+  export const deleteItem = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const item = await Item.findById(id).exec();
+      if (!item) {
+        res.status(204).json({ msg: `Nenhum item encontrado!` });
+      }
+      const response = await item.deleteOne();
+      res
+        .status(200)
+        .json({ response, msg: "Item excluído com sucesso!" });
     } catch (error) {
       console.log(error);
     }
-  },
-  countValue: async (req, res) => {
+  };
+  
+
+  
+  export const totalValue = async (req, res) => {
     // const value = {"value"}
     try {
       const countVal = await Item.aggregate([
@@ -65,5 +76,31 @@ export const postItem = {
     } catch (error) {
       console.log(error);
     }
-  },
-};
+  };
+
+  export const getItemsFromLastMonth = async (req, res) => {
+    try {
+      const today = new Date();
+  
+      const firstDayActualMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+      firstDayActualMonth.setHours(0, 0, 0, 0);
+  
+      const firstDayLastMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+      firstDayLastMonth.setMonth(firstDayLastMonth.getMonth() - 1);
+      firstDayLastMonth.setHours(0, 0, 0, 0);
+  
+      const itemsLastMonth = await Item.find({
+        createdAt: {
+          $gte: firstDayLastMonth,
+          $lt: firstDayActualMonth,
+        },
+      });
+  
+      res.status(200).json(itemsLastMonth);
+    } catch (error) {
+      console.log("Erro em encontrar os itens do mês anterior", error);
+      res.status(500).json({ error: "Erro interno do servidor" });
+    }
+  };
+  
+
