@@ -3,14 +3,17 @@ import Item from "../models/Item.js";
 export const createItem = async (req, res) => {
   try {
     const item = {
+      branch: req.body.branch,
       name: req.body.name,
       description: req.body.description,
       value: req.body.value,
       location: req.body.location,
-      itemGroup: req.body.itemGroup,
       supplier: req.body.supplier,
       serialNumber: req.body.serialNumber,
       tag: req.body.tag,
+      acquisitionDate: req.body.acquisitionDate,
+      writeOffDate: req.body.writeOffDate,
+      depreciation: req.body.depreciation,
     };
 
     const response = await Item.create(item);

@@ -1,8 +1,11 @@
 import mongoose from "mongoose";
 
-// const { ItemGroup } = require("./ItemGroup");
 const ItemSchema = new mongoose.Schema(
   {
+    branch: {
+      type: String,
+      required: true,
+    },
     name: {
       type: String,
       required: true,
@@ -19,10 +22,6 @@ const ItemSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    // itemGroup: {
-    //   type: [ItemGroup],
-    // },
-    // dateAcquisition: Date,
     supplier: {
       type: String,
       required: true,
@@ -32,6 +31,18 @@ const ItemSchema = new mongoose.Schema(
       required: true,
     },
     tag: {
+      type: Number,
+      required: true,
+    },
+    acquisitionDate: {
+      type: Date,
+      required: true,
+    },
+    writeOffDate: {
+      type: Date,
+      required: true,
+    },
+    depreciation: {
       type: Number,
       required: true,
     },
