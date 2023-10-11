@@ -46,7 +46,16 @@ export const getOne = async (req, res) => {
 
 export const updateItem = async (req, res) => {
   try {
-    const { name, description, value, supplier, serialNumber, tag } = req.body;
+    const {
+      name,
+      description,
+      value,
+      supplier,
+      serialNumber,
+      tag,
+      branch,
+      depreciation,
+    } = req.body;
 
     const { id } = req.params;
     const item = await Item.findById(id).exec();
@@ -60,6 +69,8 @@ export const updateItem = async (req, res) => {
       supplier,
       serialNumber,
       tag,
+      branch,
+      depreciation,
     });
     res.status(201).json({ response, msg: "Item atualizado com sucesso!" });
   } catch (error) {
