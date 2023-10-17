@@ -26,8 +26,8 @@ const UserSchema = new mongoose.Schema(
       },
     ],
     active: {
-      type: Boolean,
-      default: true,
+      type: String,
+      // default: true,
     },
   },
   { timestamps: true }
