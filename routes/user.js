@@ -1,21 +1,16 @@
 import express from "express";
-import { users } from "../controllers/userController.js";
-import jwt from "jsonwebtoken";
-// import { verifyJWT } from "../middleware/verifyJWT.js";
+import {
+  createUser,
+  getAllUsers,
+  updateUser,
+  deleteUser,
+} from "../controllers/userController.js";
 
 const router = express.Router();
 
-// router.use(verifyJWT)
-
-router.get("/user", users.getAll);
-// USUÁRIO SETADO PARA APARECER O NOME
-// router.route("/user/:id").get((req, res) => users.getById(req, res));
-
-// criação de usuário
-router.post("/user", users.create);
-
-//login route
-
-
+router.get("/user", getAllUsers);
+router.post("/user", createUser);
+router.put("/user/:id", updateUser);
+router.delete("/user/:id", deleteUser);
 
 export default router;
