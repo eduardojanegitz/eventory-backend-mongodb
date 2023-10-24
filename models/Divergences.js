@@ -1,23 +1,17 @@
 import mongoose from "mongoose";
 
-const InventorySchema = new mongoose.Schema(
+const DivergencesSchema = new mongoose.Schema(
   {
-    inventoryCode: {
-      type: Number,
-      unique: true,
-    },
     item: [
       {
         descricao: String,
         nome: String,
         localizacao: String,
         serial: String,
-        tag: String
       },
     ],
     location: {
-      type: String,
-      required: true,
+      type: String 
     },
     user: {
       type: mongoose.Schema.Types.String,
@@ -28,6 +22,6 @@ const InventorySchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Inventory = mongoose.model("Inventory", InventorySchema);
+const Divergences = mongoose.model("Divergences", DivergencesSchema);
 
-export default Inventory;
+export default Divergences;

@@ -1,11 +1,12 @@
 import express from "express";
-import { movement } from "../controllers/movementController.js";
+import { createMovement, getAll } from "../controllers/movementController.js";
+import { authMiddleware } from "../middleware/authMiddleware.js";
+import { getOne } from "../controllers/itemController.js";
 
 const router = express.Router();
 
-
-router.route("/movement").post((req, res) => movement.create(req, res));
-router.route("/movement").get((req, res) => movement.getAll(req, res));
-
+router.post("/movement", authMiddleware, createMovement);
+router.get("/movement", getAll);
+router.get("/movement/item/:tag", getOne);
 
 export default router;

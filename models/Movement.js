@@ -22,10 +22,11 @@ const MovementSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    // responsable: {
-    //   type: String,
-    //   required: true,
-    // },
+    user: {
+      type: mongoose.Schema.Types.String,
+      ref: "User",
+      required: true,
+    },
   },
   { timestamps: true }
 );
