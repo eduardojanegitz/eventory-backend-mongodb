@@ -20,7 +20,9 @@ const ItemSchema = new mongoose.Schema(
     },
     location: {
       type: String,
-      required: true,
+    },
+    responsable: {
+      type: String
     },
     supplier: {
       type: String,
@@ -40,11 +42,14 @@ const ItemSchema = new mongoose.Schema(
     },
     writeOffDate: {
       type: Date,
-      required: true,
     },
     depreciation: {
       type: Number,
       required: true,
+    },
+    image: {
+      data: Buffer, 
+      contentType: String, 
     },
   },
   { timestamps: true }

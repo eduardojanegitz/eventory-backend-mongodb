@@ -12,22 +12,27 @@ export const getAllDivergences = async (req, res) => {
 
 export const createDivergence = async (req, res) => {
   try {
-    const {location} = req.body
+    const { location } = req.body;
     const item = {
       item: req.body.divergences,
       user: req.username,
-      location
+      location,
     };
 
     const response = await Divergences.create(item);
-    res.status(201).json({ response, msg: "Item inventariado com sucesso" });
+    res
+      .status(201)
+      .json({
+        response,
+        msg: "Inventário divergente. Saiba mais informações na tela de Divergências!",
+      });
   } catch (error) {
     console.error("Erro ao criar inventário:", error);
     res.status(500).json({ error: "Erro ao criar inventário" });
   }
 };
 
-export const aproveDivergence = async (req, res) => {
+export const approveDivergence = async (req, res) => {
   try {
     const { id } = req.params;
     const divergence = await Divergences.findById(id).exec();
@@ -35,9 +40,7 @@ export const aproveDivergence = async (req, res) => {
       res.status(204).json({ msg: `Nenhuma divergência encontrada!` });
     }
     const response = await divergence.deleteOne();
-    res
-      .status(200)
-      .json({ response, msg: "Divergência aprovada!" });
+    res.status(200).json({ response, msg: "Divergência aprovada!" });
   } catch (error) {
     console.log(error);
   }

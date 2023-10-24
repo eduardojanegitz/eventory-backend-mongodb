@@ -7,12 +7,12 @@ export const createItem = async (req, res) => {
       name: req.body.name,
       description: req.body.description,
       value: req.body.value,
+      responsable: req.body.responsable,
       location: req.body.location,
       supplier: req.body.supplier,
       serialNumber: req.body.serialNumber,
       tag: req.body.tag,
       acquisitionDate: req.body.acquisitionDate,
-      writeOffDate: req.body.writeOffDate,
       depreciation: req.body.depreciation,
     };
 
@@ -89,6 +89,32 @@ export const deleteItem = async (req, res) => {
     res.status(200).json({ response, msg: "Item excluído com sucesso!" });
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const uploadItemImage = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const item = await Item.findById(id).exec();
+    if (!item) {
+      res.status(404).json({ msg: "Item não encontrado" });
+      return;
+    }
+
+    if (!req.file) {
+      res.status(400).json({ msg: "Nenhuma imagem foi enviada" });
+      return;
+    }
+
+    item.image.data = req.file.buffer;
+    item.image.contentType = req.file.mimetype;
+
+    await item.save();
+
+    res.status(200).json({ msg: "Imagem do item atualizada com sucesso" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ msg: "Erro interno do servidor" });
   }
 };
 

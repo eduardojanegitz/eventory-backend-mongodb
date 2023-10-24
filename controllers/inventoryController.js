@@ -46,10 +46,12 @@ export const getItemByLocation = async (req, res) => {
 export const createInventory = async (req, res) => {
   try {
     const nextInventoryCode = await getNextInventoryCode();
+    const { location } = req.body;
     const item = {
       inventoryCode: nextInventoryCode,
       item: req.body.list,
       user: req.username,
+      location
     };
 
     const response = await Inventory.create(item);
