@@ -40,7 +40,6 @@ const ItemSchema = new mongoose.Schema(
     },
     writeOffDate: {
       type: Date,
-      required: true,
     },
     depreciation: {
       type: Number,
