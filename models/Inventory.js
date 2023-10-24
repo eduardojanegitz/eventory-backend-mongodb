@@ -12,8 +12,13 @@ const InventorySchema = new mongoose.Schema(
         nome: String,
         localizacao: String,
         serial: String,
+        tag: String
       },
     ],
+    location: {
+      type: String,
+      required: true,
+    },
     user: {
       type: mongoose.Schema.Types.String,
       ref: "User",
