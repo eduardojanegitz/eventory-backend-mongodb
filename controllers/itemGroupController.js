@@ -12,8 +12,8 @@ export const getAllItemGroup = async (req, res) => {
 
 export const createItemGroup = async (req, res) => {
   try {
-    const { name, description, active } = req.body;
-    const response = await ItemGroup.create({ name, description, active });
+    const { name, description, depreciation, active } = req.body;
+    const response = await ItemGroup.create({ name, description, depreciation, active });
     res
       .status(201)
       .json({ response, msg: "Grupo de itens criado com sucesso!" });
@@ -24,14 +24,14 @@ export const createItemGroup = async (req, res) => {
 
 export const updateItemGroup = async (req, res) => {
   try {
-    const { name, description, active } = req.body;
+    const { name, description, depreciation, active } = req.body;
 
     const { id } = req.params;
     const itemGroup = await ItemGroup.findById(id).exec();
     if (!itemGroup) {
       res.status(204).json({ msg: `Nenhum grupo de itens com esse ID` });
     } else {
-      const response = await itemGroup.updateOne({ name, description, active });
+      const response = await itemGroup.updateOne({ name, description, depreciation, active });
       res
         .status(201)
         .json({ response, msg: "Grupo de itens atualizado com sucesso!" });
