@@ -10,6 +10,10 @@ const ItemGroupSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    depreciation: {
+      type: Number,
+      required: true,
+    },
     active: {
       type: String,
       required: true,
