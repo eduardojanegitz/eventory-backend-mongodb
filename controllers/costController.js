@@ -29,11 +29,8 @@ export const createCost = async (req, res) => {
 export const updateCost = async (req, res) => {
   try {
     const { description, active } = req.body;
-    //   if (!req?.body?.code) {
-    //     return res.status(400).json({ msg: 'Parâmetro ID é obrigatório!' });
-    // }
-    const { _id } = req.params;
-    const cost = await Cost.findById({ _id }).exec();
+    const { id } = req.params;
+    const cost = await Cost.findById(id).exec();
     if (!cost) {
       res.status(204).json({ msg: `Nenhum centro de custo com esse ID` });
     }
@@ -48,14 +45,14 @@ export const updateCost = async (req, res) => {
 
 export const deleteCost = async (req, res) => {
   try {
-    const { _id } = req.params;
-    const cost = await Cost.findById({ _id }).exec();
+    const { id } = req.params;
+    const cost = await Cost.findById(id).exec();
     if (!cost) {
       res.status(204).json({ msg: `Nenhum centro de custo com esse ID` });
     }
-    const response = await cost.deleteOne({ _id });
+    const response = await cost.deleteOne();
     res
-      .status(201)
+      .status(200)
       .json({ response, msg: "Centro de custo deletado com sucesso!" });
   } catch (error) {
     console.log(error);
