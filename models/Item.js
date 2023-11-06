@@ -22,7 +22,7 @@ const ItemSchema = new mongoose.Schema(
       type: String,
     },
     responsable: {
-      type: String
+      type: String,
     },
     supplier: {
       type: String,
@@ -47,9 +47,13 @@ const ItemSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    itemGroup: {
+      type: String,
+      required: true,
+    },
     image: {
-      data: Buffer, 
-      contentType: String, 
+      data: Buffer,
+      contentType: String,
     },
   },
   { timestamps: true }

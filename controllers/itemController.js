@@ -14,6 +14,7 @@ export const createItem = async (req, res) => {
       tag: req.body.tag,
       acquisitionDate: req.body.acquisitionDate,
       depreciation: req.body.depreciation,
+      itemGroup: req.body.itemGroup,
     };
 
     const response = await Item.create(item);
