@@ -33,7 +33,7 @@ const ItemSchema = new mongoose.Schema(
       required: true,
     },
     tag: {
-      type: Number,
+      type: String,
       required: true,
     },
     acquisitionDate: {
@@ -48,6 +48,14 @@ const ItemSchema = new mongoose.Schema(
       required: true,
     },
     itemGroup: {
+      type: String,
+      required: true,
+    },
+    costCenter: {
+      type: String,
+      // required: true,
+    },
+    invoice: {
       type: String,
       required: true,
     },
