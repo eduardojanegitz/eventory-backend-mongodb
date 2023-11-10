@@ -15,6 +15,8 @@ export const createItem = async (req, res) => {
       acquisitionDate: req.body.acquisitionDate,
       depreciation: req.body.depreciation,
       itemGroup: req.body.itemGroup,
+      costCenter: req.body.costCenter,
+      invoice: req.body.invoice
     };
 
     const response = await Item.create(item);
@@ -53,9 +55,11 @@ export const updateItem = async (req, res) => {
       value,
       supplier,
       serialNumber,
+      acquisitionDate,
       tag,
       branch,
       depreciation,
+      costCenter
     } = req.body;
 
     const { id } = req.params;
@@ -69,9 +73,11 @@ export const updateItem = async (req, res) => {
       value,
       supplier,
       serialNumber,
+      acquisitionDate,
       tag,
       branch,
       depreciation,
+      costCenter
     });
     res.status(201).json({ response, msg: "Item atualizado com sucesso!" });
   } catch (error) {
