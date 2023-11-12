@@ -16,7 +16,7 @@ export const createItem = async (req, res) => {
       depreciation: req.body.depreciation,
       itemGroup: req.body.itemGroup,
       costCenter: req.body.costCenter,
-      invoice: req.body.invoice
+      invoice: req.body.invoice,
     };
 
     const response = await Item.create(item);
@@ -59,7 +59,7 @@ export const updateItem = async (req, res) => {
       tag,
       branch,
       depreciation,
-      costCenter
+      costCenter,
     } = req.body;
 
     const { id } = req.params;
@@ -77,7 +77,7 @@ export const updateItem = async (req, res) => {
       tag,
       branch,
       depreciation,
-      costCenter
+      costCenter,
     });
     res.status(201).json({ response, msg: "Item atualizado com sucesso!" });
   } catch (error) {
@@ -126,7 +126,6 @@ export const uploadItemImage = async (req, res) => {
 };
 
 export const totalValue = async (req, res) => {
-  // const value = {"value"}
   try {
     const countVal = await Item.aggregate([
       {
@@ -169,7 +168,11 @@ export const getItemsFromLastMonth = async (req, res) => {
       },
     });
 
-    res.status(200).json(itemsLastMonth);
+    if (itemsLastMonth.length === 0) {
+      res.status(204).json("0");
+    } else {
+      res.status(200).json(itemsLastMonth);
+    }
   } catch (error) {
     console.log("Erro em encontrar os itens do mês anterior", error);
     res.status(500).json({ error: "Erro interno do servidor" });
