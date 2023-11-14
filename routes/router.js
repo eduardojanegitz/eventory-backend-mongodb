@@ -7,6 +7,7 @@ import cost from "./cost.js";
 import auth from "./auth.js";
 import location from "./location.js"
 import itemGroup from "./itemGroup.js";
+import divergences from "./divergences.js";
 
 const router = express.Router();
 
@@ -18,5 +19,6 @@ router.use("/", cost);
 router.use("/", auth);
 router.use("/", location);
 router.use("/", itemGroup)
+router.use("/", divergences)
 
 export default router;
