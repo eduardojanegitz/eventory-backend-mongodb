@@ -8,6 +8,7 @@ const DivergencesSchema = new mongoose.Schema(
         nome: String,
         localizacao: String,
         serial: String,
+        tag: String
       },
     ],
     location: {

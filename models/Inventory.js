@@ -12,12 +12,15 @@ const InventorySchema = new mongoose.Schema(
         nome: String,
         localizacao: String,
         serial: String,
-        tag: String
+        tag: String,
       },
     ],
     location: {
       type: String,
       required: true,
+    },
+    observation: {
+      type: String,
     },
     user: {
       type: mongoose.Schema.Types.String,
