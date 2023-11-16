@@ -63,3 +63,13 @@ export const approveDivergence = async (req, res) => {
     });
   }
 };
+
+export const getAllApprovedDivergences = async (req, res) => {
+  try {
+    const getApprovedDivergences = await ApprovedDivergences.find();
+    res.status(200).json(getApprovedDivergences);
+  } catch (error) {
+    console.error("Erro na consulta das divergências:", error);
+    res.status(500).json({ error: "Erro ao buscar divergências" });
+  }
+} 

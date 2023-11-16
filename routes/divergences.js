@@ -1,6 +1,6 @@
 import express from "express";
 import { authMiddleware } from "../middleware/authMiddleware.js";
-import { approveDivergence, createDivergence, getAllDivergences } from "../controllers/divergencesController.js";
+import { approveDivergence, createDivergence, getAllDivergences, getAllApprovedDivergences } from "../controllers/divergencesController.js";
 
 const router = express.Router();
 
@@ -9,5 +9,6 @@ router.get("/divergences", getAllDivergences)
 router.delete("/divergences/:id", approveDivergence)
 
 router.post("/approve/:id", authMiddleware, approveDivergence)
+router.get("/approve", getAllApprovedDivergences)
 
 export default router;
