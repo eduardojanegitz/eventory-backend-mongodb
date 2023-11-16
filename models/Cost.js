@@ -12,7 +12,7 @@ const CostSchema = new mongoose.Schema(
       required: true,
     },
     active: {
-      type: Boolean,
+      type: String,
       default: true,
     },
   },
