@@ -53,7 +53,7 @@ const ItemSchema = new mongoose.Schema(
     },
     costCenter: {
       type: String,
-      // required: true,
+      required: true,
     },
     invoice: {
       type: String,
